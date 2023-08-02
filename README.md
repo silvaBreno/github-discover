@@ -9,10 +9,8 @@ O aplicativo nos desafia a encarar os desafios do desenvolvimento cross-platform
 
 Então, bora lá explorar e construir juntos GitHub Discover, aumentar nosso conhecimento e descobrir todo o potencial incrível que o Flutter tem pra gente! 
 
-
-
 ### 🚀 Desenvolvimento Cross Platform
-  - [ ] Arquitetura e Configuração do Projeto
+  - [x] Arquitetura e Configuração do Projeto
   - [ ] Componentes e Telas
   - [ ] Gestão de Estado
   - [ ] Injeção de Dependência
