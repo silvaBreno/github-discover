@@ -1,0 +1,9 @@
+{
+    "configurations": [
+        {
+            "name": "GitHub Discover",
+            "type": "dart",
+            "request": "launch",
+        }
+    ]
+}
