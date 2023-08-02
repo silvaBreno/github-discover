@@ -1,4 +1,4 @@
-# GitHub Discover
+# GitHub Discover-text
 ![](https://img.shields.io/badge/FIAP-EA1D5D?style=for-the-badge&logo=flutter&logoColor=white)
 
 GitHub Discover foi criado usando o Flutter pra dar uma mãozinha nas atividades práticas do curso de Sistemas de Informação da FIAP.
