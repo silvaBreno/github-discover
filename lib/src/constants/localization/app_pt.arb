@@ -1,3 +1,41 @@
 {
-  "appTitle": "GitHub Discover"
+  "appTitle": "GitHub Discover",
+  "discoverAppBar": "Discover",
+  "profileNavigationItem": "Profile",
+  "followersFollowingItem": "{followers} seguidores · {following} seguindo",
+  "@followersFollowingItem": {
+    "placeholders": {
+      "followers": {
+        "type": "String"
+      },
+      "following": {
+        "type": "String"
+      }
+    }
+  },
+  "skillAppBar": "Nova Skill",
+  "skillTitleLabel": "Skill",
+  "skillEmptyError": "Digite uma skill",
+  "skillLengthError": "A Skill não pode ter mais de 50 caracteres",
+  "skillDescriptionLabel": "Descrição",
+  "descriptionEmptyError": "Digite uma descrição",
+  "descriptionLengthError": "A descrição não pode ter mais de 200 caracteres",
+  "addSkillButton": "Adicionar Skill",
+  "resultHeader": "{result} Resultados",
+  "@resultHeader": {
+    "placeholders": {
+      "result": {
+        "type": "String"
+      }
+    }
+  },
+  "repoSearchNavigationItem": "Repo Search",
+  "searchButton": "Pesquisar",
+  "repositoryLabel": "Repositório:",
+  "ownerLabel": "Usuario:",
+  "descriptionLabel": "Descrição:",
+  "licenseLabel": "Licença:",
+  "visibilityLabel": "Visibilidade:",
+  "userSearchNavigationItem": "User Search",
+  "nullText": "-"
 }

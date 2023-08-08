@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:github_discover/src/constants/colors.dart';
 
+const String locale = 'pt_BR';
+
 final ThemeData themeDark = ThemeData(
   useMaterial3: true,
   canvasColor: PaletteDark().kBackgrounDefaultColor,
