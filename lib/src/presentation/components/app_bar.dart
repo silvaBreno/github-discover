@@ -33,10 +33,20 @@ class _CustomAppBarState extends State<CustomAppBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      automaticallyImplyLeading: false,
       backgroundColor: context.colors.kBackgrounSubtleColor,
-      surfaceTintColor: Colors.transparent,
       centerTitle: true,
       elevation: Spacing.s0,
+      surfaceTintColor: Colors.transparent,
+      bottom: widget.bottom,
+      leading: widget.hasBackButton
+          ? GestureDetector(
+              onTap: () {},
+              child: const CustomIcon(
+                iconPath: Asset.arrowLeftIcon,
+              ),
+            )
+          : Container(),
       title: widget.text == null
           ? Row(
               mainAxisSize: MainAxisSize.min,
@@ -58,13 +68,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
               color: context.colors.kForegroundColor,
               style: TypographyType.title,
             ),
-      leading: widget.hasBackButton
-          ? GestureDetector(
-              onTap: () {},
-              child: const CustomIcon(iconPath: Asset.arrowLeftIcon),
-            )
-          : Container(),
-      bottom: widget.bottom,
     );
   }
 }

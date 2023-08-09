@@ -39,24 +39,24 @@ final router = GoRouter(
           ],
         ),
         GoRoute(
-          path: 'repositories-search',
+          path: 'repositories',
           name: AppRoute.repositoriesSearch.name,
           builder: (context, state) => const RepositoriesSearchPage(),
           routes: [
             GoRoute(
-              path: 'repository',
+              path: 'id',
               name: AppRoute.repositoryDetails.name,
               builder: (context, state) => const RepositoryDetailsPage(),
             ),
           ],
         ),
         GoRoute(
-          path: 'users-search',
+          path: 'users',
           name: AppRoute.usersSearch.name,
           builder: (context, state) => const UsersSearchPage(),
           routes: [
             GoRoute(
-              path: 'user',
+              path: 'id',
               name: AppRoute.userDetails.name,
               builder: (context, state) => const UserDetailsPage(),
             ),
