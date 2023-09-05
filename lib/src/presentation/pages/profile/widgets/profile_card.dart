@@ -13,7 +13,7 @@ import 'package:github_discover/src/utils/extensions/theme_data_extensions.dart'
 import 'package:intl/intl.dart';
 
 class ProfileCard extends StatelessWidget {
-  final Profile profile;
+  final Profile? profile;
 
   const ProfileCard({
     super.key,
@@ -33,7 +33,7 @@ class ProfileCard extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           CustomAvatar(
-            avatarUrl: profile.avatarUrl,
+            avatarUrl: profile?.avatarUrl,
             radius: Spacing.s64,
           ),
           const SizedBox(height: Spacing.s16),
@@ -42,42 +42,42 @@ class ProfileCard extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               CustomText(
-                text: profile.name,
+                text: profile?.name,
                 style: TypographyType.title,
               ),
               CustomText(
-                text: profile.login,
+                text: profile?.login,
                 style: TypographyType.body,
               ),
             ],
           ),
           const SizedBox(height: Spacing.s24),
           CustomText(
-            text: profile.bio,
+            text: profile?.bio,
             style: TypographyType.body,
           ),
           const SizedBox(height: Spacing.s24),
           ProfileItem(
             iconPath: Asset.peopleIcon,
             text: context.locales.followersFollowingItem(
-              formatter.format(profile.followers ?? 0),
-              formatter.format(profile.following ?? 0),
+              formatter.format(profile?.followers ?? 0),
+              formatter.format(profile?.following ?? 0),
             ),
           ),
           const SizedBox(height: Spacing.s8),
           ProfileItem(
             iconPath: Asset.organizationIcon,
-            text: profile.company,
+            text: profile?.company,
           ),
           const SizedBox(height: Spacing.s8),
           ProfileItem(
             iconPath: Asset.locationIcon,
-            text: profile.location,
+            text: profile?.location,
           ),
           const SizedBox(height: Spacing.s8),
           ProfileItem(
             iconPath: Asset.linkIcon,
-            text: profile.blog,
+            text: profile?.blog,
           ),
         ],
       ),

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:github_discover/src/constants/assets.dart';
-import 'package:github_discover/src/constants/mock/profile_mock.dart';
-import 'package:github_discover/src/constants/mock/skill_mock.dart';
 import 'package:github_discover/src/constants/spacings.dart';
+import 'package:github_discover/src/domain/entities/profile.dart';
 import 'package:github_discover/src/domain/entities/skill.dart';
 import 'package:github_discover/src/presentation/components/app_bar.dart';
 import 'package:github_discover/src/presentation/components/floating_action_button.dart';
@@ -13,7 +12,22 @@ import 'package:github_discover/src/utils/extensions/build_context_extensions.da
 import 'package:github_discover/src/utils/extensions/theme_data_extensions.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key});
+  final Profile? profile;
+  final Skills? skills;
+  final VoidCallback? onClickAddItem;
+  final void Function(Skill)? onClickDeleteItem;
+  final void Function(Skill)? onToggleCompleteItem;
+  final ReorderCallback onReorder;
+
+  const ProfilePage({
+    super.key,
+    required this.profile,
+    required this.skills,
+    required this.onClickAddItem,
+    required this.onClickDeleteItem,
+    required this.onToggleCompleteItem,
+    required this.onReorder,
+  });
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -25,8 +39,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    Skills skills = kSkillsMock;
-
     return Scaffold(
       backgroundColor: context.colors.kBackgrounDefaultColor,
       appBar: CustomAppBar(),
@@ -37,29 +49,22 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Padding(
             padding: const EdgeInsets.all(Spacing.s16),
             child: ResponsiveColumnLayout(
-              startContent: const ProfileCard(
-                profile: kProfileMock,
+              startContent: ProfileCard(
+                profile: widget.profile,
               ),
               endContent: ReorderableListView.builder(
                 shrinkWrap: true,
-                itemCount: skills.length,
+                itemCount: widget.skills?.length ?? 0,
                 itemBuilder: (context, index) {
+                  var skill = widget.skills![index];
                   return SkillListTile(
-                    key: ValueKey(skills[index]),
-                    skill: skills[index],
-                    onClickDelete: () {},
-                    onToggleComplete: () {},
+                    key: ValueKey(skill),
+                    skill: skill,
+                    onClickDelete: () => widget.onClickDeleteItem!(skill),
+                    onToggleComplete: () => widget.onToggleCompleteItem!(skill),
                   );
                 },
-                onReorder: (oldIndex, newIndex) {
-                  setState(() {
-                    if (oldIndex < newIndex) {
-                      newIndex -= 1;
-                    }
-                    final Skill item = skills.removeAt(oldIndex);
-                    skills.insert(newIndex, item);
-                  });
-                },
+                onReorder: widget.onReorder,
               ),
               spacing: Spacing.s16,
             ),
@@ -68,7 +73,7 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       floatingActionButton: CustomFloatingActionButton(
         iconPath: Asset.pinIcon,
-        onPressed: () {},
+        onPressed: widget.onClickAddItem!,
       ),
     );
   }

@@ -3,7 +3,7 @@ import 'package:github_discover/src/constants/assets.dart';
 import 'package:github_discover/src/presentation/components/icon.dart';
 import 'package:github_discover/src/presentation/components/loader.dart';
 import 'package:github_discover/src/presentation/pages/home/widgets/bottom_navigation.dart';
-import 'package:github_discover/src/presentation/pages/profile/profile/profile_page.dart';
+import 'package:github_discover/src/presentation/pages/profile/profile/profile_screen.dart';
 import 'package:github_discover/src/presentation/pages/repositories/search/repositories_search_page.dart';
 import 'package:github_discover/src/presentation/pages/users/search/users_search_page.dart';
 import 'package:github_discover/src/utils/extensions/build_context_extensions.dart';
@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage> {
   int _pageIndex = 0;
 
   static final List<Widget> _pages = <Widget>[
-    const ProfilePage(),
+    const ProfileScreen(),
     const RepositoriesSearchPage(),
     const UsersSearchPage(),
   ];

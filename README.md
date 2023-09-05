@@ -11,9 +11,12 @@ Então, bora lá explorar e construir juntos GitHub Discover, aumentar nosso con
 
 ### 🚀 Desenvolvimento Cross Platform
   - [x] Arquitetura e Configuração do Projeto
-  - [ ] Componentes e Telas
+  - [x] Componentes e Telas
   - [ ] Gestão de Estado
   - [ ] Injeção de Dependência
   - [ ] Navegação
   - [ ] Networking
   - [ ] Persistência de Dados Locais
+
+
+#### [VSCode Profile](https://vscode.dev/profile/github/3341c1d3f2ff21bc3823a91747d91309)
