@@ -19,6 +19,7 @@ class CustomSearchInput extends StatefulWidget {
   final TextInputType? textInputType;
   final Function(String)? onSaved;
   final String? Function(String?)? validator;
+  final void Function(String)? onChanged;
 
   const CustomSearchInput({
     super.key,
@@ -32,6 +33,7 @@ class CustomSearchInput extends StatefulWidget {
     this.textInputType,
     this.onSaved,
     this.validator,
+    this.onChanged,
   });
 
   @override
@@ -39,14 +41,27 @@ class CustomSearchInput extends StatefulWidget {
 }
 
 class _CustomSearchInputState extends State<CustomSearchInput> {
-  late TextEditingController textEditingController;
+  late TextEditingController searchController;
   late bool hasFocus;
 
   @override
   void initState() {
     super.initState();
     hasFocus = false;
-    textEditingController = widget.editingController ?? TextEditingController();
+    searchController = widget.editingController ?? TextEditingController();
+    searchController.addListener(() {
+      if (widget.onChanged != null) {
+        widget.onChanged!(searchController.text);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    if (widget.editingController == null) {
+      searchController.dispose();
+    }
+    super.dispose();
   }
 
   @override
@@ -63,7 +78,7 @@ class _CustomSearchInputState extends State<CustomSearchInput> {
       builder: (BaseInputData data) {
         return TextField(
           focusNode: data.focusNode,
-          controller: textEditingController,
+          controller: searchController,
           cursorColor: context.colors.kAccentColor,
           keyboardType: widget.textInputType,
           textInputAction: widget.inputAction,

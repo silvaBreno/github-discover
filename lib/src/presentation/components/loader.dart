@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:github_discover/src/constants/spacings.dart';
 import 'package:github_discover/src/utils/extensions/build_context_extensions.dart';
@@ -12,18 +9,13 @@ class CustomLoader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Platform.isIOS || Platform.isMacOS
-          ? CupertinoActivityIndicator(
-              color: context.colors.kAccentColor,
-              radius: Spacing.s48,
-            )
-          : SizedBox.square(
-              dimension: Spacing.s48,
-              child: CircularProgressIndicator(
-                color: context.colors.kAccentColor,
-                strokeWidth: Spacing.s4,
-              ),
-            ),
+      child: SizedBox.square(
+        dimension: Spacing.s48,
+        child: CircularProgressIndicator(
+          color: context.colors.kAccentColor,
+          strokeWidth: Spacing.s4,
+        ),
+      ),
     );
   }
 }

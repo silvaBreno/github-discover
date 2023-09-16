@@ -26,8 +26,10 @@ class CustomSearchBar extends StatelessWidget implements PreferredSizeWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: [
-          const Expanded(
-            child: CustomSearchInput(),
+          Expanded(
+            child: CustomSearchInput(
+              onChanged: onChanged,
+            ),
           ),
           const SizedBox(width: Spacing.s4),
           CustomButton(
