@@ -1,6 +1,6 @@
 import 'package:github_discover/src/domain/entities/profile.dart';
 
-const kProfileMock = Profile(
+final kProfileMock = Profile(
   id: 0,
   login: 'fiap',
   avatarUrl:
@@ -16,6 +16,6 @@ const kProfileMock = Profile(
   publicGists: 0,
   followers: 90100,
   following: 28,
-  createdAt: "",
-  updatedAt: "",
+  createdAt: DateTime.now(),
+  updatedAt: DateTime.now(),
 );

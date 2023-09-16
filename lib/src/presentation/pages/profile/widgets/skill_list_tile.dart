@@ -46,15 +46,15 @@ class SkillListTile extends StatelessWidget {
           title: CustomText(
             text: skill.title,
             style: TypographyType.body,
-            textDecoration: skill.isCompleted,
+            textDecoration: skill.isCompleted ?? false,
           ),
           subtitle: CustomText(
             text: skill.description,
             style: TypographyType.body,
-            textDecoration: skill.isCompleted,
+            textDecoration: skill.isCompleted ?? false,
           ),
           leading: CustomCheckbox(
-            initialValue: skill.isCompleted,
+            initialValue: skill.isCompleted ?? false,
             onChanged: (_) {
               onToggleComplete();
             },

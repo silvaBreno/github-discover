@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:github_discover/src/config/injection.dart';
 import 'package:github_discover/src/config/routes.dart';
 import 'package:github_discover/src/constants/assets.dart';
 import 'package:github_discover/src/domain/entities/skill.dart';
@@ -17,6 +18,15 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final ProfileBloc _bloc = di.get<ProfileBloc>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _bloc.add(ProfileInitalEvent());
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileBloc, ProfileState>(
@@ -37,7 +47,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           skills: state.skills,
           onClickAddItem: () => context.pushNamed(AppRoute.addSkill.name),
           onClickDeleteItem: (skill) {
-            context.read<ProfileBloc>().add(SkillDeletedEvent(id: skill.id));
+            context
+                .read<ProfileBloc>()
+                .add(SkillDeletedEvent(id: skill.id ?? 0));
           },
           onToggleCompleteItem: (skill) {
             context.read<ProfileBloc>().add(SkillCompletedEvent(skill: skill));

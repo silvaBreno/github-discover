@@ -25,7 +25,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
 
     // emit(const ProfileErrorState(message: 'Deu Erro'));
 
-    emit(const ProfileSuccessState(
+    emit(ProfileSuccessState(
       profile: kProfileMock,
       skills: kSkillsMock,
     ));
@@ -35,7 +35,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     SkillAddedEvent event,
     Emitter emit,
   ) async {
-    emit(const ProfileSuccessState(
+    emit(ProfileSuccessState(
       profile: kProfileMock,
       skills: kSkillsMock,
     ));
@@ -45,7 +45,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     SkillCompletedEvent event,
     Emitter emit,
   ) async {
-    emit(const ProfileSuccessState(
+    emit(ProfileSuccessState(
       profile: kProfileMock,
       skills: kSkillsMock,
     ));
@@ -55,7 +55,7 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     SkillDeletedEvent event,
     Emitter emit,
   ) async {
-    emit(const ProfileSuccessState(
+    emit(ProfileSuccessState(
       profile: kProfileMock,
       skills: kSkillsMock,
     ));

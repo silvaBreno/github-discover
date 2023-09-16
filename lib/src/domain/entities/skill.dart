@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 
 class Skill extends Equatable {
-  final int id;
-  final String title;
+  final int? id;
+  final String? title;
   final String? description;
-  final bool isCompleted;
+  final bool? isCompleted;
 
   const Skill({
     required this.id,
