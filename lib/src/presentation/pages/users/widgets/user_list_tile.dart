@@ -9,7 +9,7 @@ import 'package:github_discover/src/utils/extensions/build_context_extensions.da
 import 'package:github_discover/src/utils/extensions/theme_data_extensions.dart';
 
 class UserListTile extends StatelessWidget {
-  final User user;
+  final User? user;
   final VoidCallback onTap;
 
   const UserListTile({
@@ -30,14 +30,14 @@ class UserListTile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CustomAvatar(
-              avatarUrl: user.avatarUrl,
+              avatarUrl: user?.avatarUrl,
               radius: Spacing.s48,
             ),
             const SizedBox(height: Spacing.s8),
             Expanded(
               child: CustomText(
                 style: TypographyType.title,
-                text: user.name,
+                text: user?.name,
                 textOverflow: TextOverflow.fade,
                 wrap: false,
               ),

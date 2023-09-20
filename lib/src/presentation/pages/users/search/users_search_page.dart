@@ -1,36 +1,49 @@
 import 'package:flutter/material.dart';
-import 'package:github_discover/src/config/routes.dart';
-import 'package:github_discover/src/constants/mock/user_mock.dart';
 import 'package:github_discover/src/constants/spacings.dart';
 import 'package:github_discover/src/constants/theme.dart';
 import 'package:github_discover/src/constants/typographies.dart';
+import 'package:github_discover/src/domain/entities/user.dart';
 import 'package:github_discover/src/presentation/components/app_bar.dart';
 import 'package:github_discover/src/presentation/components/app_bar_bottom.dart';
 import 'package:github_discover/src/presentation/components/text.dart';
 import 'package:github_discover/src/presentation/pages/users/widgets/user_list_tile.dart';
 import 'package:github_discover/src/utils/extensions/build_context_extensions.dart';
 import 'package:github_discover/src/utils/extensions/theme_data_extensions.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 class UsersSearchPage extends StatefulWidget {
-  const UsersSearchPage({super.key});
+  final Users users;
+  final void Function(String?) onSearch;
+  final void Function(User?) onItemTap;
+
+  const UsersSearchPage({
+    super.key,
+    required this.users,
+    required this.onSearch,
+    required this.onItemTap,
+  });
 
   @override
   State<UsersSearchPage> createState() => _UsersSearchPageState();
 }
 
 class _UsersSearchPageState extends State<UsersSearchPage> {
-  var formatter = NumberFormat.compact(locale: locale);
+  String searchText = "";
 
   @override
   Widget build(BuildContext context) {
+    var formatter = NumberFormat.compact(locale: locale);
+
     return Scaffold(
       backgroundColor: context.colors.kBackgrounDefaultColor,
       appBar: CustomAppBar(
         bottom: CustomAppBarBottom(
-          onChanged: (search) {},
-          onPressed: () {},
+          onChanged: (search) {
+            setState(() {
+              searchText = search;
+            });
+          },
+          onPressed: () => widget.onSearch(searchText),
         ),
       ),
       extendBodyBehindAppBar: true,
@@ -44,11 +57,14 @@ class _UsersSearchPageState extends State<UsersSearchPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                CustomText(
-                  text: context.locales.resultHeader(formatter.format(3)),
-                  textAlign: TextAlign.start,
-                  style: TypographyType.header,
-                ),
+                widget.users.isNotEmpty
+                    ? CustomText(
+                        text: context.locales.resultHeader(
+                            formatter.format(widget.users.length)),
+                        textAlign: TextAlign.start,
+                        style: TypographyType.header,
+                      )
+                    : const SizedBox(),
                 const SizedBox(height: Spacing.s32),
                 SizedBox(
                   width: double.infinity,
@@ -63,14 +79,13 @@ class _UsersSearchPageState extends State<UsersSearchPage> {
                     physics: const ClampingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
-                    itemCount: 20,
+                    itemCount: widget.users.length,
                     itemBuilder: (context, index) {
+                      final item = widget.users[index];
                       return Flexible(
                         child: UserListTile(
-                          user: kUserMock,
-                          onTap: () {
-                            context.goNamed(AppRoute.userDetails.name);
-                          },
+                          user: item,
+                          onTap: () => widget.onItemTap(item),
                         ),
                       );
                     },

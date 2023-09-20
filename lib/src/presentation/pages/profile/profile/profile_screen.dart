@@ -18,53 +18,57 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final ProfileBloc _bloc = di.get<ProfileBloc>();
+  final ProfileBloc _bloc = getIt.get<ProfileBloc>();
 
   @override
   void initState() {
     super.initState();
-
     _bloc.add(ProfileInitalEvent());
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProfileBloc, ProfileState>(
-      builder: (context, state) {
-        if (state is ProfileLoadingState) {
-          return const CustomLoader();
-        }
+    return BlocProvider(
+      create: (context) => _bloc,
+      child: BlocBuilder<ProfileBloc, ProfileState>(
+        builder: (context, state) {
+          if (state is ProfileLoadingState) {
+            return const CustomLoader();
+          }
 
-        if (state is ProfileErrorState) {
-          return CustomEmptyState(
-            iconPath: Asset.stopIcon,
-            description: state.message ?? '',
+          if (state is ProfileErrorState) {
+            return CustomEmptyState(
+              iconPath: Asset.stopIcon,
+              description: state.message ?? '',
+            );
+          }
+
+          return ProfilePage(
+            profile: state.profile,
+            skills: state.skills,
+            onClickAddItem: () => context.pushNamed(AppRoute.addSkill.name),
+            onClickDeleteItem: (skill) {
+              context
+                  .read<ProfileBloc>()
+                  .add(SkillDeletedEvent(id: skill.id ?? 0));
+            },
+            onToggleCompleteItem: (skill) {
+              context
+                  .read<ProfileBloc>()
+                  .add(SkillCompletedEvent(skill: skill));
+            },
+            onReorder: (oldIndex, newIndex) {
+              setState(() {
+                if (oldIndex < newIndex) {
+                  newIndex -= 1;
+                }
+                final Skill item = state.skills!.removeAt(oldIndex);
+                state.skills!.insert(newIndex, item);
+              });
+            },
           );
-        }
-
-        return ProfilePage(
-          profile: state.profile,
-          skills: state.skills,
-          onClickAddItem: () => context.pushNamed(AppRoute.addSkill.name),
-          onClickDeleteItem: (skill) {
-            context
-                .read<ProfileBloc>()
-                .add(SkillDeletedEvent(id: skill.id ?? 0));
-          },
-          onToggleCompleteItem: (skill) {
-            context.read<ProfileBloc>().add(SkillCompletedEvent(skill: skill));
-          },
-          onReorder: (oldIndex, newIndex) {
-            setState(() {
-              if (oldIndex < newIndex) {
-                newIndex -= 1;
-              }
-              final Skill item = state.skills!.removeAt(oldIndex);
-              state.skills!.insert(newIndex, item);
-            });
-          },
-        );
-      },
+        },
+      ),
     );
   }
 }

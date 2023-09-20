@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:github_discover/src/constants/mock/repository_mock.dart';
 import 'package:github_discover/src/constants/mock/user_mock.dart';
 import 'package:github_discover/src/constants/spacings.dart';
+import 'package:github_discover/src/domain/entities/repository.dart';
 import 'package:github_discover/src/domain/entities/user.dart';
 import 'package:github_discover/src/presentation/components/app_bar.dart';
 import 'package:github_discover/src/presentation/components/responsive_column_layout.dart';
@@ -11,18 +11,21 @@ import 'package:github_discover/src/utils/extensions/build_context_extensions.da
 import 'package:github_discover/src/utils/extensions/theme_data_extensions.dart';
 
 class UserDetailsPage extends StatelessWidget {
+  final User? user;
+  final Repositories repositories;
+
   const UserDetailsPage({
     super.key,
+    required this.user,
+    required this.repositories,
   });
 
   @override
   Widget build(BuildContext context) {
-    User user = kUserMock;
-
     return Scaffold(
       backgroundColor: context.colors.kBackgrounDefaultColor,
       appBar: CustomAppBar(
-        text: user.name?.toUpperCase(),
+        text: user?.name?.toUpperCase(),
         hasBackButton: true,
       ),
       extendBodyBehindAppBar: true,
@@ -38,11 +41,10 @@ class UserDetailsPage extends StatelessWidget {
               endContent: ListView.builder(
                 physics: const ClampingScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: 3,
+                itemCount: repositories.length,
                 itemBuilder: (context, index) {
-                  return const RepositoryListTile(
-                    repository: kRepositoryMock,
-                  );
+                  final item = repositories[index];
+                  return RepositoryListTile(repository: item);
                 },
               ),
               spacing: Spacing.s16,

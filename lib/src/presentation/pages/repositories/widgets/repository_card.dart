@@ -8,7 +8,7 @@ import 'package:github_discover/src/utils/extensions/build_context_extensions.da
 import 'package:github_discover/src/utils/extensions/theme_data_extensions.dart';
 
 class RepositoryCard extends StatelessWidget {
-  final Repository repository;
+  final Repository? repository;
 
   const RepositoryCard({
     super.key,
@@ -25,33 +25,33 @@ class RepositoryCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CustomAvatar(
-            avatarUrl: repository.owner?.avatarUrl,
+            avatarUrl: repository?.owner?.avatarUrl,
             radius: Spacing.s72,
           ),
           const SizedBox(height: Spacing.s24),
           RepositoryItem(
             label: context.locales.repositoryLabel,
-            text: repository.name,
+            text: repository?.name,
           ),
           const SizedBox(height: Spacing.s16),
           RepositoryItem(
             label: context.locales.ownerLabel,
-            text: repository.owner?.login,
+            text: repository?.owner?.login,
           ),
           const SizedBox(height: Spacing.s16),
           RepositoryItem(
             label: context.locales.descriptionLabel,
-            text: repository.description,
+            text: repository?.description,
           ),
           const SizedBox(height: Spacing.s16),
           RepositoryItem(
             label: context.locales.licenseLabel,
-            text: repository.license?.name,
+            text: repository?.license?.name,
           ),
           const SizedBox(height: Spacing.s16),
           RepositoryItem(
             label: context.locales.visibilityLabel,
-            text: repository.visibility,
+            text: repository?.visibility,
           ),
         ],
       ),

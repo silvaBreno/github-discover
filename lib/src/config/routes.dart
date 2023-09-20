@@ -1,10 +1,10 @@
 import 'package:github_discover/src/presentation/pages/home/home_page.dart';
 import 'package:github_discover/src/presentation/pages/profile/add_skill/add_skill_page.dart';
 import 'package:github_discover/src/presentation/pages/profile/profile/profile_screen.dart';
-import 'package:github_discover/src/presentation/pages/repositories/details/repository_details_page.dart';
-import 'package:github_discover/src/presentation/pages/repositories/search/repositories_search_page.dart';
-import 'package:github_discover/src/presentation/pages/users/details/user_details_page.dart';
-import 'package:github_discover/src/presentation/pages/users/search/users_search_page.dart';
+import 'package:github_discover/src/presentation/pages/repositories/details/repository_details_screen.dart';
+import 'package:github_discover/src/presentation/pages/repositories/search/repositories_search_screen.dart';
+import 'package:github_discover/src/presentation/pages/users/details/user_details_screen.dart';
+import 'package:github_discover/src/presentation/pages/users/search/users_search_screen.dart';
 import 'package:go_router/go_router.dart';
 
 enum AppRoute {
@@ -41,24 +41,28 @@ final router = GoRouter(
         GoRoute(
           path: 'repositories',
           name: AppRoute.repositoriesSearch.name,
-          builder: (context, state) => const RepositoriesSearchPage(),
+          builder: (context, state) => const RepositoriesSearchScreen(),
           routes: [
             GoRoute(
               path: 'id',
               name: AppRoute.repositoryDetails.name,
-              builder: (context, state) => const RepositoryDetailsPage(),
+              builder: (context, state) {
+                return const RepositoryDetailsScreen();
+              },
             ),
           ],
         ),
         GoRoute(
           path: 'users',
           name: AppRoute.usersSearch.name,
-          builder: (context, state) => const UsersSearchPage(),
+          builder: (context, state) => const UsersSearchScreen(),
           routes: [
             GoRoute(
               path: 'id',
               name: AppRoute.userDetails.name,
-              builder: (context, state) => const UserDetailsPage(),
+              builder: (context, state) {
+                return const UserDetailsScreen();
+              },
             ),
           ],
         ),

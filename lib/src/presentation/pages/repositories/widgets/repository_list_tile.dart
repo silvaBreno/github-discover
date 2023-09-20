@@ -9,7 +9,7 @@ import 'package:github_discover/src/utils/extensions/build_context_extensions.da
 import 'package:github_discover/src/utils/extensions/theme_data_extensions.dart';
 
 class RepositoryListTile extends StatelessWidget {
-  final Repository repository;
+  final Repository? repository;
   final VoidCallback onTap;
 
   const RepositoryListTile({
@@ -33,7 +33,7 @@ class RepositoryListTile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CustomAvatar(
-              avatarUrl: repository.owner?.avatarUrl,
+              avatarUrl: repository?.owner?.avatarUrl,
               radius: Spacing.s32,
             ),
             const SizedBox(width: Spacing.s16),
@@ -45,7 +45,7 @@ class RepositoryListTile extends StatelessWidget {
                   width: MediaQuery.of(context).size.width / 1.4,
                   child: CustomText(
                     style: TypographyType.title,
-                    text: repository.fullName,
+                    text: repository?.fullName,
                     textOverflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.start,
                   ),
@@ -54,7 +54,7 @@ class RepositoryListTile extends StatelessWidget {
                 CustomText(
                   color: context.colors.kAccentColor,
                   style: TypographyType.label,
-                  text: repository.name,
+                  text: repository?.name,
                   textAlign: TextAlign.start,
                 ),
               ],
