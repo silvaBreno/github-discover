@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:github_discover/src/config/injection.dart';
+import 'package:github_discover/src/config/routes.dart';
 import 'package:github_discover/src/constants/assets.dart';
 import 'package:github_discover/src/domain/entities/repository.dart';
 import 'package:github_discover/src/presentation/blocs/repositories/details/repository_details_bloc.dart';
 import 'package:github_discover/src/presentation/components/empty_state.dart';
 import 'package:github_discover/src/presentation/components/loader.dart';
 import 'package:github_discover/src/presentation/pages/repositories/details/repository_details_page.dart';
+import 'package:go_router/go_router.dart';
 
 class RepositoryDetailsScreen extends StatefulWidget {
   final String? fullName;
@@ -51,6 +53,12 @@ class _RepositoryDetailsScreenState extends State<RepositoryDetailsScreen> {
 
           return RepositoryDetailsPage(
             repository: repository,
+            backButtonPressed: () {
+              context.pushReplacementNamed(
+                AppRoute.home.name,
+                extra: 1,
+              );
+            },
           );
         },
         listener: (context, state) {

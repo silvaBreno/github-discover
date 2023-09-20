@@ -8,10 +8,12 @@ import 'package:github_discover/src/utils/extensions/theme_data_extensions.dart'
 
 class RepositoryDetailsPage extends StatelessWidget {
   final Repository? repository;
+  final VoidCallback? backButtonPressed;
 
   const RepositoryDetailsPage({
     super.key,
     required this.repository,
+    required this.backButtonPressed,
   });
 
   @override
@@ -21,6 +23,7 @@ class RepositoryDetailsPage extends StatelessWidget {
       appBar: CustomAppBar(
         text: repository?.name?.toUpperCase(),
         hasBackButton: true,
+        backButtonPressed: backButtonPressed,
       ),
       extendBodyBehindAppBar: true,
       body: SafeArea(

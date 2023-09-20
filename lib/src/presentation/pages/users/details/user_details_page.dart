@@ -13,11 +13,13 @@ import 'package:github_discover/src/utils/extensions/theme_data_extensions.dart'
 class UserDetailsPage extends StatelessWidget {
   final User? user;
   final Repositories repositories;
+  final VoidCallback? backButtonPressed;
 
   const UserDetailsPage({
     super.key,
     required this.user,
     required this.repositories,
+    required this.backButtonPressed,
   });
 
   @override
@@ -27,6 +29,7 @@ class UserDetailsPage extends StatelessWidget {
       appBar: CustomAppBar(
         text: user?.name?.toUpperCase(),
         hasBackButton: true,
+        backButtonPressed: backButtonPressed,
       ),
       extendBodyBehindAppBar: true,
       body: SafeArea(

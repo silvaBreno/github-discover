@@ -42,8 +42,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
       leading: widget.hasBackButton
           ? GestureDetector(
               onTap: widget.backButtonPressed,
-              child: const CustomIcon(
-                iconPath: Asset.arrowLeftIcon,
+              child: const Padding(
+                padding: EdgeInsets.all(Spacing.s12),
+                child: CustomIcon(
+                  iconPath: Asset.arrowLeftIcon,
+                ),
               ),
             )
           : Container(),

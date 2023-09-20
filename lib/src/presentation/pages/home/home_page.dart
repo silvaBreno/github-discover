@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:github_discover/src/constants/assets.dart';
 import 'package:github_discover/src/presentation/components/icon.dart';
-import 'package:github_discover/src/presentation/components/loader.dart';
 import 'package:github_discover/src/presentation/pages/home/widgets/bottom_navigation.dart';
 import 'package:github_discover/src/presentation/pages/profile/profile/profile_screen.dart';
 import 'package:github_discover/src/presentation/pages/repositories/search/repositories_search_screen.dart';
@@ -10,11 +9,11 @@ import 'package:github_discover/src/utils/extensions/build_context_extensions.da
 import 'package:github_discover/src/utils/extensions/theme_data_extensions.dart';
 
 class HomePage extends StatefulWidget {
-  final bool loading;
+  final int index;
 
   const HomePage({
     super.key,
-    required this.loading,
+    this.index = 0,
   });
 
   @override
@@ -31,17 +30,17 @@ class _HomePageState extends State<HomePage> {
   ];
 
   @override
+  void initState() {
+    _pageIndex = widget.index;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.colors.kBackgrounDefaultColor,
       body: SafeArea(
-        child: Stack(
-          children: [
-            widget.loading
-                ? const CustomLoader()
-                : Container(child: _pages.elementAt(_pageIndex))
-          ],
-        ),
+        child: Container(child: _pages.elementAt(_pageIndex)),
       ),
       bottomNavigationBar: CustomBottomNavigationBar(
         items: [

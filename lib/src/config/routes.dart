@@ -24,7 +24,11 @@ final router = GoRouter(
     GoRoute(
       path: '/',
       name: AppRoute.home.name,
-      builder: (context, state) => const HomePage(loading: false),
+      builder: (context, state) {
+        return HomePage(
+          index: state.extra as int,
+        );
+      },
       routes: [
         GoRoute(
           path: 'profile',
