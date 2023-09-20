@@ -55,7 +55,8 @@ class UsersSearchScreenState extends State<UsersSearchScreen> {
             onItemTap: (item) {
               context.goNamed(
                 AppRoute.userDetails.name,
-                extra: item,
+                pathParameters: {'user': item?.login ?? ''},
+                extra: item?.login,
               );
             },
           );

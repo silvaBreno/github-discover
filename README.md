@@ -13,8 +13,8 @@ Então, bora lá explorar e construir juntos GitHub Discover, aumentar nosso con
   - [x] Arquitetura e Configuração do Projeto
   - [x] Componentes e Telas
   - [ ] Gestão de Estado
-  - [ ] Injeção de Dependência
-  - [ ] Navegação
+  - [x] Injeção de Dependência
+  - [x] Navegação
   - [ ] Networking
   - [ ] Persistência de Dados Locais
 

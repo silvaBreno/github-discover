@@ -56,7 +56,8 @@ class _RepositoriesSearchScreenState extends State<RepositoriesSearchScreen> {
             onItemTap: (item) {
               context.goNamed(
                 AppRoute.repositoryDetails.name,
-                extra: item,
+                pathParameters: {'repository': item?.name ?? ''},
+                extra: item?.fullName,
               );
             },
           );

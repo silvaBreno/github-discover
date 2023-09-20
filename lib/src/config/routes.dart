@@ -44,10 +44,12 @@ final router = GoRouter(
           builder: (context, state) => const RepositoriesSearchScreen(),
           routes: [
             GoRoute(
-              path: 'id',
+              path: ':repository',
               name: AppRoute.repositoryDetails.name,
               builder: (context, state) {
-                return const RepositoryDetailsScreen();
+                return RepositoryDetailsScreen(
+                  fullName: state.extra as String?,
+                );
               },
             ),
           ],
@@ -58,10 +60,12 @@ final router = GoRouter(
           builder: (context, state) => const UsersSearchScreen(),
           routes: [
             GoRoute(
-              path: 'id',
+              path: ':user',
               name: AppRoute.userDetails.name,
               builder: (context, state) {
-                return const UserDetailsScreen();
+                return UserDetailsScreen(
+                  login: state.extra as String?,
+                );
               },
             ),
           ],

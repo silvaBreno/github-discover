@@ -14,7 +14,7 @@ class UserDetailsScreen extends StatefulWidget {
 
   const UserDetailsScreen({
     super.key,
-    this.login,
+    required this.login,
   });
 
   @override
