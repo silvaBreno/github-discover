@@ -7,7 +7,7 @@ import 'package:github_discover/src/data/utils/endpoints.dart';
 import 'package:github_discover/src/data/utils/exception.dart';
 
 abstract class ProfileRemoteDataSource {
-  Future<ProfileModel> getProfile(String login);
+  Future<ProfileModel> getProfile();
 }
 
 class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
@@ -16,7 +16,7 @@ class ProfileRemoteDataSourceImpl implements ProfileRemoteDataSource {
   ProfileRemoteDataSourceImpl(this.dio);
 
   @override
-  Future<ProfileModel> getProfile(String login) async {
+  Future<ProfileModel> getProfile() async {
     final response = await dio.get(
       '${Env.baseUrl}${Endpoint.profile}',
     );

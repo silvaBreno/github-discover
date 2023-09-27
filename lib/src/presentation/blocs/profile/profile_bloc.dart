@@ -1,15 +1,20 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:github_discover/src/constants/mock/profile_mock.dart';
 import 'package:github_discover/src/constants/mock/skill_mock.dart';
 import 'package:github_discover/src/domain/entities/profile.dart';
 import 'package:github_discover/src/domain/entities/skill.dart';
+import 'package:github_discover/src/domain/usecases/profile/get_profile_usecase.dart';
 
 part 'profile_event.dart';
 part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  ProfileBloc() : super(ProfileInitial()) {
+  final GetProfileUseCase _getProfileUseCase;
+
+  ProfileBloc({
+    required GetProfileUseCase getProfileUseCase,
+  })  : _getProfileUseCase = getProfileUseCase,
+        super(ProfileInitial()) {
     on<ProfileInitalEvent>(_onProfileInitalEvent);
     on<SkillAddedEvent>(_onSkillAddedEvent);
     on<SkillCompletedEvent>(_onSkillCompletedEvent);
@@ -21,45 +26,39 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     ProfileInitalEvent event,
     Emitter emit,
   ) async {
-    // emit(ProfileLoadingState());
+    emit(ProfileLoadingState());
 
-    // emit(const ProfileErrorState(message: 'Deu Erro'));
+    final result = await _getProfileUseCase.execute();
 
-    emit(ProfileSuccessState(
-      profile: kProfileMock,
-      skills: kSkillsMock,
-    ));
+    result.fold(
+      (failure) {
+        emit(ProfileErrorState(
+          message: failure.message,
+        ));
+      },
+      (data) {
+        emit(ProfileSuccessState(
+          profile: data,
+          skills: kSkillsMock,
+        ));
+      },
+    );
   }
 
   void _onSkillAddedEvent(
     SkillAddedEvent event,
     Emitter emit,
-  ) async {
-    emit(ProfileSuccessState(
-      profile: kProfileMock,
-      skills: kSkillsMock,
-    ));
-  }
+  ) async {}
 
   void _onSkillCompletedEvent(
     SkillCompletedEvent event,
     Emitter emit,
-  ) async {
-    emit(ProfileSuccessState(
-      profile: kProfileMock,
-      skills: kSkillsMock,
-    ));
-  }
+  ) async {}
 
   void _onSkillDeletedEvent(
     SkillDeletedEvent event,
     Emitter emit,
-  ) async {
-    emit(ProfileSuccessState(
-      profile: kProfileMock,
-      skills: kSkillsMock,
-    ));
-  }
+  ) async {}
 
   void _onSkillReorderedEvent(
     SkillReorderedEvent event,

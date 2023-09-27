@@ -30,6 +30,13 @@ class SkillModel extends Equatable {
         isCompleted: isCompleted,
       );
 
+  factory SkillModel.fromEntity(Skill entity) => SkillModel(
+        id: entity.id,
+        title: entity.title,
+        description: entity.description,
+        isCompleted: entity.isCompleted,
+      );
+
   @override
   List<Object?> get props => [
         id,
