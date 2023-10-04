@@ -1,25 +1,35 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:github_discover/src/constants/mock/skill_mock.dart';
 import 'package:github_discover/src/domain/entities/profile.dart';
 import 'package:github_discover/src/domain/entities/skill.dart';
 import 'package:github_discover/src/domain/usecases/profile/get_profile_usecase.dart';
+import 'package:github_discover/src/domain/usecases/profile/get_skills_usecase.dart';
+import 'package:github_discover/src/domain/usecases/profile/skill_add_usecase.dart';
+import 'package:github_discover/src/domain/usecases/profile/skill_delete_usecase.dart';
+import 'package:github_discover/src/domain/usecases/profile/skill_updated_usecase.dart';
 
 part 'profile_event.dart';
 part 'profile_state.dart';
 
 class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
-  final GetProfileUseCase _getProfileUseCase;
+  final GetProfileUseCase getProfileUseCase;
+  final GetSkillsUseCase getSkillsUseCase;
+  final SkillAddUseCase skillAddUseCase;
+  final SkillDeleteUseCase skillDeleteUseCase;
+  final SkillUpdateUseCase skillUpdateUseCase;
 
   ProfileBloc({
-    required GetProfileUseCase getProfileUseCase,
-  })  : _getProfileUseCase = getProfileUseCase,
-        super(ProfileInitial()) {
+    required this.getProfileUseCase,
+    required this.getSkillsUseCase,
+    required this.skillAddUseCase,
+    required this.skillDeleteUseCase,
+    required this.skillUpdateUseCase,
+  }) : super(ProfileInitial()) {
     on<ProfileInitalEvent>(_onProfileInitalEvent);
-    on<SkillAddedEvent>(_onSkillAddedEvent);
-    on<SkillCompletedEvent>(_onSkillCompletedEvent);
-    on<SkillDeletedEvent>(_onSkillDeletedEvent);
-    on<SkillReorderedEvent>(_onSkillReorderedEvent);
+
+    on<SkillAddEvent>(_onSkillAddEvent);
+    on<SkillDeleteEvent>(_onSkillDeleteEvent);
+    on<SkillUpdateEvent>(_onSkillUpdateEvent);
   }
 
   void _onProfileInitalEvent(
@@ -27,10 +37,9 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
     Emitter emit,
   ) async {
     emit(ProfileLoadingState());
-
-    final result = await _getProfileUseCase.execute();
-
-    result.fold(
+    final profileResult = await getProfileUseCase.execute();
+    final skillsResult = await getSkillsUseCase.execute();
+    profileResult.fold(
       (failure) {
         emit(ProfileErrorState(
           message: failure.message,
@@ -39,36 +48,50 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
       (data) {
         emit(ProfileSuccessState(
           profile: data,
-          skills: kSkillsMock,
+          skills: skillsResult,
         ));
       },
     );
   }
 
-  void _onSkillAddedEvent(
-    SkillAddedEvent event,
-    Emitter emit,
-  ) async {}
-
-  void _onSkillCompletedEvent(
-    SkillCompletedEvent event,
-    Emitter emit,
-  ) async {}
-
-  void _onSkillDeletedEvent(
-    SkillDeletedEvent event,
-    Emitter emit,
-  ) async {}
-
-  void _onSkillReorderedEvent(
-    SkillReorderedEvent event,
+  void _onSkillAddEvent(
+    SkillAddEvent event,
     Emitter emit,
   ) async {
-    int newIndex = event.newIndex;
-    if (event.oldIndex < event.newIndex) {
-      newIndex -= 1;
+    try {
+      skillAddUseCase.execute(Skill(
+        id: 0,
+        title: event.title,
+        description: event.description,
+        isCompleted: false,
+      ));
+      add(ProfileInitalEvent());
+    } catch (error) {
+      emit(const ProfileErrorState(message: 'Hive Error'));
     }
-    final Skill item = state.skills!.removeAt(event.oldIndex);
-    state.skills!.insert(newIndex, item);
+  }
+
+  void _onSkillDeleteEvent(
+    SkillDeleteEvent event,
+    Emitter emit,
+  ) async {
+    try {
+      skillDeleteUseCase.execute(event.id!);
+      add(ProfileInitalEvent());
+    } catch (error) {
+      emit(const ProfileErrorState(message: 'Hive Error'));
+    }
+  }
+
+  void _onSkillUpdateEvent(
+    SkillUpdateEvent event,
+    Emitter emit,
+  ) async {
+    try {
+      skillUpdateUseCase.execute(event.skill);
+      add(ProfileInitalEvent());
+    } catch (error) {
+      emit(const ProfileErrorState(message: 'Hive Error'));
+    }
   }
 }
