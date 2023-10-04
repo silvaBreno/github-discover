@@ -4,6 +4,7 @@ import 'package:github_discover/src/constants/spacings.dart';
 import 'package:github_discover/src/domain/entities/profile.dart';
 import 'package:github_discover/src/domain/entities/skill.dart';
 import 'package:github_discover/src/presentation/components/app_bar.dart';
+import 'package:github_discover/src/presentation/components/empty_state.dart';
 import 'package:github_discover/src/presentation/components/floating_action_button.dart';
 import 'package:github_discover/src/presentation/components/responsive_column_layout.dart';
 import 'package:github_discover/src/presentation/pages/profile/widgets/profile_card.dart';
@@ -13,19 +14,19 @@ import 'package:github_discover/src/utils/extensions/theme_data_extensions.dart'
 
 class ProfilePage extends StatefulWidget {
   final Profile? profile;
-  final Skills? skills;
-  final VoidCallback? onClickAddItem;
-  final void Function(Skill)? onClickDeleteItem;
-  final void Function(Skill)? onToggleCompleteItem;
+  final Skills skills;
+  final VoidCallback? onAddItemPressed;
+  final void Function(Skill)? onDeleteItemPressed;
+  final void Function(Skill)? onUpdatedItemPressed;
   final ReorderCallback onReorder;
 
   const ProfilePage({
     super.key,
     required this.profile,
     required this.skills,
-    required this.onClickAddItem,
-    required this.onClickDeleteItem,
-    required this.onToggleCompleteItem,
+    required this.onAddItemPressed,
+    required this.onDeleteItemPressed,
+    required this.onUpdatedItemPressed,
     required this.onReorder,
   });
 
@@ -52,20 +53,27 @@ class _ProfilePageState extends State<ProfilePage> {
               startContent: ProfileCard(
                 profile: widget.profile,
               ),
-              endContent: ReorderableListView.builder(
-                shrinkWrap: true,
-                itemCount: widget.skills?.length ?? 0,
-                itemBuilder: (context, index) {
-                  var skill = widget.skills![index];
-                  return SkillListTile(
-                    key: ValueKey(skill),
-                    skill: skill,
-                    onClickDelete: () => widget.onClickDeleteItem!(skill),
-                    onToggleComplete: () => widget.onToggleCompleteItem!(skill),
-                  );
-                },
-                onReorder: widget.onReorder,
-              ),
+              endContent: widget.skills.isNotEmpty
+                  ? ReorderableListView.builder(
+                      shrinkWrap: true,
+                      itemCount: widget.skills.length,
+                      itemBuilder: (context, index) {
+                        var skill = widget.skills[index];
+                        return SkillListTile(
+                          key: UniqueKey(),
+                          skill: skill,
+                          onDeletedPressed: () =>
+                              widget.onDeleteItemPressed!(skill),
+                          onUpdatedPressed: () =>
+                              widget.onUpdatedItemPressed!(skill),
+                        );
+                      },
+                      onReorder: widget.onReorder,
+                    )
+                  : CustomEmptyState(
+                      iconPath: Asset.mortarBoardIcon,
+                      description: context.locales.skillsRegisteredError,
+                    ),
               spacing: Spacing.s16,
             ),
           ),
@@ -73,7 +81,7 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       floatingActionButton: CustomFloatingActionButton(
         iconPath: Asset.pinIcon,
-        onPressed: widget.onClickAddItem!,
+        onPressed: widget.onAddItemPressed!,
       ),
     );
   }

@@ -22,6 +22,9 @@ class ProfileSuccessState extends ProfileState {
     required super.profile,
     required super.skills,
   });
+
+  @override
+  List<Object?> get props => [profile, skills];
 }
 
 class ProfileErrorState extends ProfileState {

@@ -35,3 +35,13 @@ RoundedRectangleBorder shapeBorder(Color color) {
     borderRadius: borderRadius,
   );
 }
+
+BoxDecoration borderDialog(Color color) {
+  return BoxDecoration(
+    color: color,
+    borderRadius: const BorderRadius.only(
+      topLeft: Radius.circular(6.0),
+      topRight: Radius.circular(6.0),
+    ),
+  );
+}

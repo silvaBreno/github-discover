@@ -3,12 +3,16 @@ import 'package:github_discover/src/data/models/skill_model.dart';
 import 'package:github_discover/src/data/utils/exception.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+const String _skillBox = 'skillBox';
+const String _latestIdBox = "latestIdBox";
+const String _latestId = "_latestId";
+
 abstract class ProfileLocalDataSource {
-  List<SkillModel> getSkillList();
-  void saveSkill(SkillModel skill);
-  void updateSkill(int id, SkillModel skill);
-  void deleteSkill(int id);
-  void deleteAllSkillList();
+  Future<List<SkillModel>> getSkillList();
+  Future<void> saveSkill(SkillModel skill);
+  Future<void> updateSkill(int id, SkillModel skill);
+  Future<void> deleteSkill(int id);
+  Future<void> deleteAllSkillList();
 }
 
 class ProfileLocalDataSourceImpl implements ProfileLocalDataSource {
@@ -16,11 +20,10 @@ class ProfileLocalDataSourceImpl implements ProfileLocalDataSource {
 
   ProfileLocalDataSourceImpl(this.hive);
 
-  late Box _skillBox;
-
   @override
-  List<SkillModel> getSkillList() {
-    return _skillBox.values
+  Future<List<SkillModel>> getSkillList() async {
+    final box = await hive.openBox(_skillBox);
+    return box.values
         .map((skill) => SkillModel(
               id: skill.id,
               title: skill.title,
@@ -31,26 +34,32 @@ class ProfileLocalDataSourceImpl implements ProfileLocalDataSource {
   }
 
   @override
-  void saveSkill(SkillModel skill) async {
+  Future<void> saveSkill(SkillModel skill) async {
     try {
-      await _skillBox.put(
-        skill.id,
+      final box = await hive.openBox(_skillBox);
+      final lastIdBox = await hive.openBox(_latestIdBox);
+      int latestId = lastIdBox.get(_latestId, defaultValue: 0);
+
+      await box.put(
+        latestId + 1,
         SkillHive(
-          id: skill.id,
+          id: latestId + 1,
           title: skill.title,
           description: skill.description,
           isCompleted: skill.isCompleted,
         ),
       );
+      await lastIdBox.put(_latestId, latestId + 1);
     } catch (error) {
       throw DatabaseException();
     }
   }
 
   @override
-  void updateSkill(int id, SkillModel skill) async {
+  Future<void> updateSkill(int id, SkillModel skill) async {
     try {
-      await _skillBox.put(
+      final box = await hive.openBox(_skillBox);
+      await box.put(
         id,
         SkillHive(
           id: skill.id,
@@ -65,18 +74,21 @@ class ProfileLocalDataSourceImpl implements ProfileLocalDataSource {
   }
 
   @override
-  void deleteSkill(int id) async {
+  Future<void> deleteSkill(int id) async {
     try {
-      await _skillBox.delete(id);
+      final box = await hive.openBox(_skillBox);
+
+      await box.delete(id);
     } catch (error) {
       throw DatabaseException();
     }
   }
 
   @override
-  void deleteAllSkillList() async {
+  Future<void> deleteAllSkillList() async {
     try {
-      await _skillBox.clear();
+      final box = await hive.openBox('skill');
+      await box.clear();
     } catch (error) {
       throw DatabaseException();
     }

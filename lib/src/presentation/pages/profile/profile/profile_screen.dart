@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:github_discover/src/config/injection.dart';
-import 'package:github_discover/src/config/routes.dart';
 import 'package:github_discover/src/constants/assets.dart';
 import 'package:github_discover/src/domain/entities/skill.dart';
 import 'package:github_discover/src/presentation/blocs/profile/profile_bloc.dart';
 import 'package:github_discover/src/presentation/components/empty_state.dart';
 import 'package:github_discover/src/presentation/components/loader.dart';
 import 'package:github_discover/src/presentation/pages/profile/profile/profile_page.dart';
+import 'package:github_discover/src/presentation/pages/profile/widgets/add_skill_dialog.dart';
 import 'package:go_router/go_router.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -20,10 +20,13 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final ProfileBloc _bloc = getIt.get<ProfileBloc>();
 
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+
   @override
   void initState() {
-    super.initState();
     _bloc.add(ProfileInitalEvent());
+    super.initState();
   }
 
   @override
@@ -31,6 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return BlocProvider(
       create: (context) => _bloc,
       child: BlocBuilder<ProfileBloc, ProfileState>(
+        bloc: _bloc,
         builder: (context, state) {
           if (state is ProfileLoadingState) {
             return const CustomLoader();
@@ -45,17 +49,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
           return ProfilePage(
             profile: state.profile,
-            skills: state.skills,
-            onClickAddItem: () => context.pushNamed(AppRoute.addSkill.name),
-            onClickDeleteItem: (skill) {
-              context
-                  .read<ProfileBloc>()
-                  .add(SkillDeletedEvent(id: skill.id ?? 0));
+            skills: state.skills ?? [],
+            onAddItemPressed: () {
+              showAddSkillDialog(
+                context,
+                titleController: titleController,
+                descriptionController: descriptionController,
+                onAddSkillPressed: () {
+                  _bloc.add(SkillAddEvent(
+                    title: titleController.text,
+                    description: descriptionController.text,
+                  ));
+                  titleController.clear();
+                  descriptionController.clear();
+                  context.pop();
+                },
+              );
             },
-            onToggleCompleteItem: (skill) {
-              context
-                  .read<ProfileBloc>()
-                  .add(SkillCompletedEvent(skill: skill));
+            onDeleteItemPressed: (skill) {
+              _bloc.add(SkillDeleteEvent(id: skill.id));
+            },
+            onUpdatedItemPressed: (skill) {
+              _bloc.add(SkillUpdateEvent(skill: skill));
             },
             onReorder: (oldIndex, newIndex) {
               setState(() {

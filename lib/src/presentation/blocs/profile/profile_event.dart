@@ -9,34 +9,26 @@ sealed class ProfileEvent extends Equatable {
 
 class ProfileInitalEvent extends ProfileEvent {}
 
-class SkillAddedEvent extends ProfileEvent {
+class SkillAddEvent extends ProfileEvent {
+  final String? title;
+  final String? description;
+
+  const SkillAddEvent({
+    required this.title,
+    required this.description,
+  });
+}
+
+class SkillUpdateEvent extends ProfileEvent {
   final Skill skill;
 
-  const SkillAddedEvent({
+  const SkillUpdateEvent({
     required this.skill,
   });
 }
 
-class SkillCompletedEvent extends ProfileEvent {
-  final Skill skill;
+class SkillDeleteEvent extends ProfileEvent {
+  final int? id;
 
-  const SkillCompletedEvent({
-    required this.skill,
-  });
-}
-
-class SkillDeletedEvent extends ProfileEvent {
-  final int id;
-
-  const SkillDeletedEvent({required this.id});
-}
-
-class SkillReorderedEvent extends ProfileEvent {
-  final int oldIndex;
-  final int newIndex;
-
-  const SkillReorderedEvent({
-    required this.oldIndex,
-    required this.newIndex,
-  });
+  const SkillDeleteEvent({required this.id});
 }

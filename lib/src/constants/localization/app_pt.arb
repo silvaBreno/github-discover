@@ -15,6 +15,7 @@
   },
   "skillAppBar": "Nova Skill",
   "skillTitleLabel": "Skill",
+  "skillsRegisteredError": "Não temos nenhuma habilidade registrada",
   "skillEmptyError": "Digite uma skill",
   "skillLengthError": "A Skill não pode ter mais de 50 caracteres",
   "skillDescriptionLabel": "Descrição",

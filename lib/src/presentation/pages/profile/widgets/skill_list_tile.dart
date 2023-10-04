@@ -12,24 +12,22 @@ import 'package:github_discover/src/utils/extensions/theme_data_extensions.dart'
 
 class SkillListTile extends StatelessWidget {
   final Skill skill;
-  final VoidCallback onClickDelete;
-  final VoidCallback onToggleComplete;
+  final VoidCallback onDeletedPressed;
+  final VoidCallback onUpdatedPressed;
 
   const SkillListTile({
     required this.skill,
-    required this.onClickDelete,
-    required this.onToggleComplete,
+    required this.onDeletedPressed,
+    required this.onUpdatedPressed,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return Dismissible(
-      key: ValueKey(skill),
+      key: UniqueKey(),
       direction: DismissDirection.endToStart,
-      onDismissed: (direction) {
-        onClickDelete();
-      },
+      onDismissed: (_) => onDeletedPressed(),
       background: Container(
         decoration: borderCard(context.colors.kAlertDangerColor),
         alignment: Alignment.centerRight,
@@ -55,9 +53,7 @@ class SkillListTile extends StatelessWidget {
           ),
           leading: CustomCheckbox(
             initialValue: skill.isCompleted ?? false,
-            onChanged: (_) {
-              onToggleComplete();
-            },
+            onChanged: (_) => onUpdatedPressed(),
           ),
         ),
       ),
