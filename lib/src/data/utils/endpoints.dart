@@ -1,5 +1,5 @@
 class Endpoint {
-  static const String profile = 'users/paulosabra';
+  static const String profile = 'users/silvaBreno';
   static const String searchRepositories = 'search/repositories';
   static const String repository = 'repos/';
   static const String searchUsers = 'search/users';
