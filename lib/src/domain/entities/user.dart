@@ -15,8 +15,8 @@ class User extends Equatable {
   final int? publicGists;
   final int? followers;
   final int? following;
-  final String? createdAt;
-  final String? updatedAt;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
 
   const User({
     required this.id,

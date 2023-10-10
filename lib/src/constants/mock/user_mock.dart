@@ -16,6 +16,6 @@ const kUserMock = User(
   publicGists: 0,
   followers: 90100,
   following: 28,
-  createdAt: "",
-  updatedAt: "",
+  createdAt: null,
+  updatedAt: null,
 );
