@@ -43,9 +43,9 @@ class RepositoryRemoteDataSourceImpl implements RepositoryRemoteDataSource {
   }
 
   @override
-  Future<RepositoryModel> getRepository(String fullname) async {
+  Future<RepositoryModel> getRepository(String fullName) async {
     final response = await dio.get(
-      '${Env.baseUrl}${Endpoint.repository}$fullname',
+      '${Env.baseUrl}${Endpoint.repository}$fullName',
     );
 
     if (response.statusCode == HttpStatus.ok) {
